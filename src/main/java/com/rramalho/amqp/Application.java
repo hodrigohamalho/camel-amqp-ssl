@@ -28,19 +28,13 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-    
-    @Bean
-    AMQPConnectionDetails amqpConnection() {
-//    	ComponentConfiguration con = new AMQPComponent().createComponentConfiguration();
-//    	con.setParameter("transport.keyStoreLocation", "certs/amq-client.ks");
-//    	con.setParameter("transport.keyStorePassword", "redhat");
-//    	con.setParameter("transport.trustStoreLocation", "certs/amq-client.ts");
-//    	con.setParameter("transport.trustStorePassword", "redhat");
-    	
-    	return new AMQPConnectionDetails("amqp://amq-broker-amq-demo.127.0.0.1.nip.io:443?ssl=true&trust-store=certs/amq-client.ts&trust-store-password=redhat&key-store=amq-client.ks&key-store-password=redhat", "redhat", "redhat");
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
+	@Bean
+	AMQPConnectionDetails amqpConnection() {
+		return new AMQPConnectionDetails("amqp://amq-broker-amq-demo.127.0.0.1.nip.io:443?ssl=true&trust-store=certs/amq-client.ts&trust-store-password=redhat&key-store=amq-client.ks&key-store-password=redhat", "redhat", "redhat");
+	}
 
 }
