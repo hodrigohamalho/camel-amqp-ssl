@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+    
+    <!-- Camel Routes -->
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <!--
+          A route to generate a random order every 5th second.
+
+          When this route is started, it will automatically send xml messages to the JMS queue incomingOrders on the
+          ActiveMQ broker.
+
+          The <log/> elements are used to add human-friendly business logging statements. They make it easier to see what the
+          route is doing.
+
+          The amq component ensures to use the broker in the kubernetes cluster.
+        -->
+        <route id="generate-order-route" streamCache="true">
+            <from id="route-timer" uri="timer:order?period=3000"/>
+            <bean id="route-new-order" method="generateOrder" ref="orderGenerator"/>
+            <setHeader headerName="Exchange.FILE_NAME" id="route-set-order-header">
+                <!-- defining the header containing a simulated file name -->
+                <method method="generateFileName" ref="orderGenerator"/>
+            </setHeader>
+            <log id="route-log-order" message="Generating order ${file:name}"/>
+            <to id="route-to-incoming-orders" uri="amqp:incomingOrders"/>
+        </route>
+        <!--
+          This route consumes messages from the JMS queue incomingOrders on the ActiveMQ broker within the ESB.
+
+          The <choice/> element contains the content based router. The two <when/> clauses use XPath to define the criteria
+          for entering that part of the route. When the country in the XML message is set to UK or US, the message will follow
+          the specific rules defined for that country. The <otherwise/> element ensures that any message that does not meet the
+          requirements for either of the <when/> elements will follow another route.
+        -->
+        <route id="jms-cbr-route" streamCache="true">
+            <from id="route-from-incoming-orders" uri="amqp:incomingOrders"/>
+            <choice id="route-choose-country">
+                <when id="route-when-uk">
+                    <xpath>/order/customer/country = 'UK'</xpath>
+                    <log id="route-log-uk" message="Sending order ${file:name} to the UK"/>
+                    <!-- Put additional routing rules for UK messages here -->
+                </when>
+                <when id="route-when-us">
+                    <xpath>/order/customer/country = 'US'</xpath>
+                    <log id="route-log-us" message="Sending order ${file:name} to the US"/>
+                    <!-- Put additional routing rules for US messages here -->
+                </when>
+                <otherwise id="route-when-other-country">
+                    <log id="route-log-other" message="Sending order ${file:name} to another country"/>
+                    <!-- Put additional routing rules for other messages here -->
+                </otherwise>
+            </choice>
+            <log id="route-final-log" message="Done processing ${file:name}"/>
+        </route>
+    </camelContext>
+</beans>
