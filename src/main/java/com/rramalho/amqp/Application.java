@@ -15,8 +15,6 @@
  */
 package com.rramalho.amqp;
 
-import org.apache.camel.ComponentConfiguration;
-import org.apache.camel.component.amqp.AMQPComponent;
 import org.apache.camel.component.amqp.AMQPConnectionDetails;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

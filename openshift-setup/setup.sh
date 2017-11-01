@@ -1,7 +1,7 @@
 oc login -u system:admin
 oc adm policy add-cluster-role-to-user cluster-admin admin
 oc create -f https://raw.githubusercontent.com/jboss-openshift/application-templates/master/jboss-image-streams.json -n openshift
-oc create -f https://raw.githubusercontent.com/jboss-openshift/application-templates/master/amq/amq63-persistent-ssl.json -n openshift
+oc create -f https://raw.githubusercontent.com/hodrigohamalho/application-templates/master/amq/amq63-persistent-ssl.json -n openshift
 oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/master/fis-image-streams.json -n openshift
 
 oc login -u developer
