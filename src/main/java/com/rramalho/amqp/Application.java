@@ -34,7 +34,9 @@ public class Application {
 
 	@Bean
 	AMQPConnectionDetails amqpConnection() {
-		return new AMQPConnectionDetails("amqp://amq-broker-amq-demo.127.0.0.1.nip.io:443?ssl=true&trust-store=certs/amq-client.ts&trust-store-password=redhat&key-store=amq-client.ks&key-store-password=redhat", "redhat", "redhat");
+		return new AMQPConnectionDetails("amqps://amqp-ssl-amq-demo.127.0.0.1.nip.io:443?transport.trustStoreLocation=/home/rramalho/workspace/amqp/src/main/resources/certs/amq-client.ts&transport.trustStorePassword=redhat&transport.verifyHost=false", "redhat", "redhat");
 	}
 
+	
+	// mvn clean package spring-boot:run -Djavax.net.debug=ssl -Djavax.net.ssl.keyStore=/home/rramalho/workspace/amqp/src/main/resources/amq-client.ks -Djavax.net.ssl.keyStorePassword=redhat -Djavax.net.ssl.trustStore=/home/rramalho/workspace/amqp/src/main/resources/amq-client.ts -Dtransport.trustStorePassword=redhat
 }
