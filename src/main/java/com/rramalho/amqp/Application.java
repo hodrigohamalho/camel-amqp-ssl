@@ -16,6 +16,7 @@
 package com.rramalho.amqp;
 
 import org.apache.camel.component.amqp.AMQPConnectionDetails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,15 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
+	
+	@Value("${activemq.broker.url}")
+	private String AMQ_BROKER_URL;
+	
+	@Value("${activemq.broker.username}")
+	private String AMQ_BROKER_USERNAME;
+	
+	@Value("${activemq.broker.password}")
+	private String AMQ_BROKER_PASSWORD;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -34,7 +44,10 @@ public class Application {
 
 	@Bean
 	AMQPConnectionDetails amqpConnection() {
-		return new AMQPConnectionDetails("amqps://amqp-ssl-amq-demo.127.0.0.1.nip.io:443?transport.trustStoreLocation=/home/rramalho/workspace/amqp/src/main/resources/certs/amq-client.ts&transport.trustStorePassword=redhat&transport.verifyHost=false", "redhat", "redhat");
+		System.out.println("AMQ BROKER URL: "+AMQ_BROKER_URL);
+		System.out.println("AMQ BROKER USERNAME: "+AMQ_BROKER_USERNAME);
+		System.out.println("AMQ BROKER PASSWORD: "+AMQ_BROKER_PASSWORD);
+		return new AMQPConnectionDetails(AMQ_BROKER_URL, AMQ_BROKER_USERNAME, AMQ_BROKER_PASSWORD);
 	}
 
 	// You could remove all parameters and pass it via environment variables https://qpid.apache.org/releases/qpid-jms-0.26.0/docs/index.html
