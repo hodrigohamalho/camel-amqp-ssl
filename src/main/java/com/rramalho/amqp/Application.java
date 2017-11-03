@@ -37,6 +37,6 @@ public class Application {
 		return new AMQPConnectionDetails("amqps://amqp-ssl-amq-demo.127.0.0.1.nip.io:443?transport.trustStoreLocation=/home/rramalho/workspace/amqp/src/main/resources/certs/amq-client.ts&transport.trustStorePassword=redhat&transport.verifyHost=false", "redhat", "redhat");
 	}
 
-	
+	// You could remove all parameters and pass it via environment variables https://qpid.apache.org/releases/qpid-jms-0.26.0/docs/index.html
 	// mvn clean package spring-boot:run -Djavax.net.debug=ssl -Djavax.net.ssl.keyStore=/home/rramalho/workspace/amqp/src/main/resources/amq-client.ks -Djavax.net.ssl.keyStorePassword=redhat -Djavax.net.ssl.trustStore=/home/rramalho/workspace/amqp/src/main/resources/amq-client.ts -Dtransport.trustStorePassword=redhat
 }
