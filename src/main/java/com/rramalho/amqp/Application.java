@@ -44,9 +44,6 @@ public class Application {
 
 	@Bean
 	AMQPConnectionDetails amqpConnection() {
-		System.out.println("AMQ BROKER URL: "+AMQ_BROKER_URL);
-		System.out.println("AMQ BROKER USERNAME: "+AMQ_BROKER_USERNAME);
-		System.out.println("AMQ BROKER PASSWORD: "+AMQ_BROKER_PASSWORD);
 		return new AMQPConnectionDetails(AMQ_BROKER_URL, AMQ_BROKER_USERNAME, AMQ_BROKER_PASSWORD);
 	}
 
