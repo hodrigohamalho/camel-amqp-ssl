@@ -1,30 +1,33 @@
-# Camel AMQP+SSL application publishing messages in a AMQ Broker in Openshift
+# Camel AMQP+SSL application publishing messages in a AMQ Broker in Openshift 
 
-This shows how to connect a external application (outside Openshift) to an A-MQ xPaaS message broker inside Openshift.
+This example shows how to connect an external application (outside Openshift) to an AMQ xPaaS message broker inside Openshift using the router via SSL/TLS.
+
+The cool thing about this methodology is the capability to route the traffic to non HTTP ports (TCP) via HTTPS port. On this example I exposed the AMQP port.
 
 Doc: https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.3/html-single/red_hat_jboss_a-mq_for_openshift/
 
-### Building
+## Requirements
 
-The example can be built with
+Openshift cluster up and running.
 
     mvn clean install
 
-After it you can exec the application using
+## Setup
 
-    mvn spring-boot:run
+### AMQ Setup
 
-### Running the example in OpenShift (oc cluster up)
+1. Generate certificates to use in the broker and the client application (this one)
 
-### Openshift Setup
+    openshift-setup/certs-setup.sh
 
-    oc cluster up
-    
-If a openshift running, run the setup.sh. It will deploy the AMQ in your Openshift instance in the `amq-demo` project. 
+2. Deploy the AMQ Broker
 
     openshift-setup/setup.sh
 
-If you would like to generate your own certificates, you should use:
+3. Run the application to test
 
-    openshift-setup/cert-setup.sh
+    mvn spring-boot:run
+
+If everything works you should see the messages being produced and consumed in a AMQ queue.
+    
 
