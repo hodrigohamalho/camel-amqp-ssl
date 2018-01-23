@@ -46,6 +46,11 @@ Finally run the application:
 
 If you would like to troubleshooting, run with the script `run-debug-ssl.sh`.
 
+More infos: 
+
+* https://developers.redhat.com/blog/2016/12/05/calling-amq-deployed-in-openshift-by-external-client/
+
+* https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.2/html-single/red_hat_jboss_a-mq_for_openshift/index
 
 
 
