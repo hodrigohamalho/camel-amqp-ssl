@@ -1,33 +1,54 @@
-# Camel AMQP+SSL application publishing messages in a AMQ Broker in Openshift 
+# External application using a AMQ Broker in Openshift
 
-This example shows how to connect an external application (outside Openshift) to an AMQ xPaaS message broker inside Openshift using the router via SSL/TLS.
+The external application is a Fuse Integration Services / Camel.
 
-The cool thing about this methodology is the capability to route the traffic to non HTTP ports (TCP) via HTTPS port. On this example I exposed the AMQP port.
+## Introduction
 
-Doc: https://access.redhat.com/documentation/en-us/red_hat_jboss_a-mq/6.3/html-single/red_hat_jboss_a-mq_for_openshift/
+Openshift uses a router to expose applications to the external world. This access is via HTTP/HTTPS 
+but sometimes you need to connect using non HTTP connection. e.g: databases, message broker.
 
-## Requirements
+[There is some ways to achieve it](https://docs.openshift.com/container-platform/latest/dev_guide/expose_service/index.html).
 
-Openshift cluster up and running.
+* [Port forwarding](https://docs.openshift.com/container-platform/latest/dev_guide/port_forwarding.html)
+* [Node Port](https://docs.openshift.com/container-platform/latest/dev_guide/expose_service/expose_internal_ip_nodeport.html)
+* [Router](https://docs.openshift.com/container-platform/latest/dev_guide/expose_service/expose_internal_ip_router.html#getting-traffic-into-cluster-router)
 
-    mvn clean install
+I choose the Router option to demonstrate in this example. As the web applications in Openshift usually is exposed via router 
+this method is the most common and known one. Using the router to expose non HTTP traffic it need to use HTTPS/TLS (SNI).
 
-## Setup
+This approach needs that you need some control to the client application because it must to trust in the 
+broker certificate. If you do not have any control to the client application you need to choose another approach, maybe 
+node port.
 
-### AMQ Setup
+## Hands on
 
-1. Generate certificates to use in the broker and the client application (this one)
+1) Generating the certificates
+First we need to create the certificates, to make it easier I made a script [certs-setup.sh](./openshift-setup/certs-setup.sh). Adjust with your own values and run it.
+    
+Look at the generated files. The [amq-server.ks](openshift-setup/amq-server.ks) will be used in the AMQ broker and the [amq-client.ts](openshift-setup/amq-client.ts)
+in the client application (external to the Openshift).
 
-    openshift-setup/certs-setup.sh
+2) Setup the AMQ Broker in Openshift
 
-2. Deploy the AMQ Broker
+Once that the certificates is already generated, we could do the AMQ Broker setup. To make it easier I made the script [setup.sh](./openshift-setup/setup.sh). Adjust with your values and pay attention to the comments to better ajust to your case.
 
-    openshift-setup/setup.sh
+3) Run the client application 
 
-3. Run the application to test
+I used Fuse Integration Services to built this client application, but it could be any application, in any language because it uses AMQP+SSL protocol.
+
+To run, first adjust the file [application.properties](src/resources/application.properties) with the broker values, host, user, passwd.
+
+Finally run the application: 
 
     mvn spring-boot:run
 
-If everything works you should see the messages being produced and consumed in a AMQ queue.
-    
+If you would like to troubleshooting, run with the script `run-debug-ssl.sh`.
+
+
+
+
+
+
+
+
 
