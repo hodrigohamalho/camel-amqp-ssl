@@ -16,6 +16,8 @@ but sometimes you need to connect using non HTTP connection. e.g: databases, mes
 I choose the Router option to demonstrate in this example. As the web applications in Openshift usually is exposed via router 
 this method is the most common and known one. Using the router to expose non HTTP traffic it need to use HTTPS/TLS (SNI).
 
+![External Application communication with AMQ Broker in Openshift via Router](./amqp-openshift.png)
+
 This approach needs that you need some control to the client application because it must to trust in the 
 broker certificate. If you do not have any control to the client application you need to choose another approach, maybe 
 node port.
