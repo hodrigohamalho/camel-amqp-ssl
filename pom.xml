@@ -10,8 +10,8 @@
 	<packaging>jar</packaging>
 
 
-	<name>Fabric8 :: Quickstarts :: Spring Boot :: Camel and ActiveMQ</name>
-	<description>Spring Boot example running a Camel route connecting to ActiveMQ</description>
+	<name>Camel and ActiveMQ Application using AMQ with SSL</name>
+	<description>External application using a AMQ Broker in Openshift</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
