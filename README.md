@@ -25,6 +25,7 @@ node port.
 ## Hands on
 
 1) Generating the certificates
+
 First we need to create the certificates, to make it easier I made a script [certs-setup.sh](./openshift-setup/certs-setup.sh). Adjust with your own values and run it.
     
 Look at the generated files. The [amq-server.ks](openshift-setup/amq-server.ks) will be used in the AMQ broker and the [amq-client.ts](openshift-setup/amq-client.ts)
