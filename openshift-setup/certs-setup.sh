@@ -6,7 +6,7 @@ keytool \
 	-genkey \
 	-keyalg RSA \
 	-alias amq-server \
-    -dname "CN=server.rramalho.com, OU=Solution Architect, O=Red Hat, L=Rio de Janeiro, ST=RJ, C=BR" \
+    -dname "CN=amq.rramalho.com, OU=Solution Architect, O=Red Hat, L=Rio de Janeiro, ST=RJ, C=BR" \
 	-keystore amq-server.ks \
 	-storepass $BROKER_KEYSTORE_PASSWORD \
     -keypass $BROKER_KEYSTORE_PASSWORD
